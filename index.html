@@ -52,9 +52,13 @@ pre{margin:0;padding:16px;background:var(--ink);color:var(--bg);border-radius:10
 ul.plain{padding-left:20px;margin:8px 0 0}
 footer{padding:28px 0 40px;color:var(--mute);border-top:1px solid var(--line)}
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+
+#ball{position:fixed;left:0;top:0;width:60px;height:60px;border-radius:50%;background:var(--hot);border:2px solid var(--ink);z-index:10;touch-action:none;cursor:grab;user-select:none;-webkit-user-select:none}
+#ball:active{cursor:grabbing}
 </style>
 </head>
 <body>
+<div id="ball" aria-hidden="true"></div>
 <div class="stripe" aria-hidden="true"></div>
 <div class="wrap">
 <header><button class="ghost" id="theme" type="button">Switch theme</button></header>
@@ -116,6 +120,26 @@ footer{padding:28px 0 40px;color:var(--mute);border-top:1px solid var(--line)}
 </div>
 
 <script>
+// Ball
+(()=>{
+ const b=document.getElementById("ball"),R=30,de=document.documentElement;
+ let x=de.clientWidth/2,y=120,vx=0,vy=0,held=false,tx=0,ty=0,ox=0,oy=0,last=performance.now();
+ b.onpointerdown=e=>{held=true;b.setPointerCapture(e.pointerId);tx=e.clientX;ty=e.clientY;ox=x-tx;oy=y-ty;vx=vy=0};
+ b.onpointermove=e=>{tx=e.clientX;ty=e.clientY};
+ b.onpointerup=b.onpointercancel=()=>held=false;
+ function tick(now){
+  const k=Math.min(Math.max((now-last)/16.7,.1),3),W=de.clientWidth,H=innerHeight;last=now;
+  if(held){const nx=tx+ox,ny=ty+oy;vx=(nx-x)/k;vy=(ny-y)/k;x=nx;y=ny}
+  else{vy+=k;x+=vx*k;y+=vy*k;vx*=Math.pow(.99,k)}
+  if(x<R||x>W-R){x=x<R?R:W-R;if(!held)vx*=-.8}
+  if(y>H-R){y=H-R;if(!held){vy=Math.abs(vy)<2?0:vy*-.8;vx*=.95}}
+  else if(y<R){y=R;if(!held)vy*=-.8}
+  b.style.transform="translate("+(x-R)+"px,"+(y-R)+"px)";
+  requestAnimationFrame(tick)
+ }
+ requestAnimationFrame(tick)
+})();
+
 // Theme
 const root=document.documentElement;
 try{const t=localStorage.getItem("theme");if(t)root.dataset.theme=t}catch(e){}
