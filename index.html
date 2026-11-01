@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Frontend Developer</title>
+<style>
+:root{--bg:#E6E4DE;--panel:#F4F3EF;--ink:#16181B;--mute:#4D535B;--line:#BDBAB1;--hot:#D9460F;--blue:#1B55B5;color-scheme:light;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#14161A;--panel:#1D2025;--ink:#ECEBE6;--mute:#A2A8B0;--line:#353A41;--hot:#FF6A33;--blue:#6EA3FF;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#14161A;--panel:#1D2025;--ink:#ECEBE6;--mute:#A2A8B0;--line:#353A41;--hot:#FF6A33;--blue:#6EA3FF;color-scheme:dark}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:1040px;margin:0 auto;padding:0 20px}
+.stripe{height:14px;background:repeating-linear-gradient(-45deg,var(--hot) 0 14px,var(--ink) 14px 28px)}
+header{display:flex;justify-content:flex-end;padding:14px 0}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,input:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.ghost{background:none;border:1px solid var(--line);border-radius:6px;padding:6px 12px;min-height:44px}
+.hero{display:grid;gap:28px;align-items:center;padding:16px 0 56px}
+@media(min-width:820px){.hero{grid-template-columns:1.1fr 1fr}}
+h1{font:800 clamp(3rem,10vw,6.2rem)/.92 "Avenir Next Condensed","Arial Narrow","Roboto Condensed",Impact,sans-serif;letter-spacing:-.01em;margin:0 0 18px}
+.lede{font-size:1.2rem;color:var(--mute);max-width:34ch;margin:0 0 16px}
+.tags{display:flex;flex-wrap:wrap;gap:8px;padding:0;margin:0;list-style:none}
+.tags li{border:1px solid var(--line);background:var(--panel);border-radius:999px;padding:3px 12px;font-size:.95rem}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:16px}
+canvas{width:100%;aspect-ratio:6/5;display:block}
+.ctrl{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-top:10px}
+.ctrl label{display:flex;gap:10px;align-items:center;flex:1 1 180px}
+.ctrl input{flex:1;min-width:90px;accent-color:var(--hot);min-height:44px}
+.stop{background:var(--hot);color:#fff;border:0;border-radius:8px;padding:10px 18px;font-weight:700;min-height:44px}
+.stop[aria-pressed="true"]{background:var(--blue)}
+#status{font-weight:700;margin:8px 0 0}
+section{padding:44px 0;border-top:1px solid var(--line)}
+h2{font:800 clamp(1.8rem,5vw,2.6rem)/1.1 "Avenir Next Condensed","Arial Narrow","Roboto Condensed",Impact,sans-serif;margin:0 0 6px}
+.sub{color:var(--mute);margin:0 0 22px;max-width:60ch}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.chip{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:8px 16px;min-height:44px;font-weight:600}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+pre{margin:0;padding:16px;background:var(--ink);color:var(--bg);border-radius:10px;overflow-x:auto;font:15px/1.5 ui-monospace,Menlo,Consolas,monospace}
+.term{background:var(--ink);color:var(--bg);border-radius:10px;padding:14px;font:15px/1.5 ui-monospace,Menlo,Consolas,monospace}
+#out{min-height:150px;max-height:280px;overflow:auto;white-space:pre-wrap}
+.term .cmd{color:var(--hot)}
+.run{display:flex;gap:8px;margin-top:10px}
+.run input{flex:1;min-width:0;background:transparent;border:1px solid #6b7078;border-radius:6px;color:inherit;font:inherit;padding:8px 10px;min-height:44px}
+.quick{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.quick button{background:transparent;border:1px solid #6b7078;color:var(--bg);border-radius:6px;padding:6px 12px;min-height:44px}
+.cards{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
+.card h3{margin:0 0 4px;font-size:1.25rem}
+.card{border-left:6px solid var(--hot)}
+ul.plain{padding-left:20px;margin:8px 0 0}
+footer{padding:28px 0 40px;color:var(--mute);border-top:1px solid var(--line)}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<div class="stripe" aria-hidden="true"></div>
+<div class="wrap">
+<header><button class="ghost" id="theme" type="button">Switch theme</button></header>
+
+<main>
+<div class="hero">
+ <div>
+  <h1>Frontend Developer</h1>
+  <p class="lede">Five years of building for the web, and certified to program industrial machines.</p>
+  <ul class="tags"><li>HTML</li><li>CSS</li><li>JavaScript</li><li>React.js</li><li>Next.js</li><li>Bootstrap</li></ul>
+ </div>
+ <div class="panel">
+  <canvas id="gears" width="720" height="600" role="img" aria-label="Three meshing gears turning"></canvas>
+  <div class="ctrl">
+   <label>Speed <input id="speed" type="range" min="1" max="10" value="4" aria-label="Machine speed"></label>
+   <button class="stop" id="stop" type="button" aria-pressed="false">Emergency stop</button>
+  </div>
+  <p id="status" aria-live="polite">Machine running</p>
+ </div>
+</div>
+
+<section id="stack">
+ <h2>The stack</h2>
+ <p class="sub">Pick a tool to see a small example.</p>
+ <div class="chips" id="chips"></div>
+ <p id="skilldesc" aria-live="polite" style="margin:0 0 10px"></p>
+ <pre><code id="code"></code></pre>
+</section>
+
+<section id="ask">
+ <h2>Ask the terminal</h2>
+ <p class="sub">Tap a command or type one.</p>
+ <div class="term">
+  <div id="out" aria-live="polite"></div>
+  <div class="quick" id="quick"></div>
+  <form class="run" id="form"><input id="cmd" aria-label="Command" autocomplete="off" autocapitalize="off" placeholder="Type help"><button class="ghost" style="color:var(--bg);border-color:#6b7078">Run</button></form>
+ </div>
+</section>
+
+<section id="experience">
+ <h2>Experience</h2>
+ <div class="cards">
+  <div class="panel card"><h3>Frontend Developer</h3><div style="color:var(--mute)">5 years of experience</div>
+   <ul class="plain"><li>Build and style web pages and interfaces with HTML, CSS and JavaScript</li><li>Create reusable interfaces with React.js</li><li>Develop web applications with Next.js</li><li>Build responsive layouts with Bootstrap</li></ul></div>
+  <div class="panel card"><h3>Sandwich Artist, Subway</h3><div style="color:var(--mute)">Customer service</div>
+   <ul class="plain"><li>Served customers directly in a fast-paced setting</li><li>Communicated clearly with customers and teammates</li><li>Followed food safety and cleanliness procedures</li></ul></div>
+ </div>
+</section>
+
+<section id="certs">
+ <h2>Certifications</h2>
+ <div class="cards">
+  <div class="panel card"><h3>SACA Gold</h3>Qualified to program machines in an industrial setting.</div>
+  <div class="panel card"><h3>OSHA 10</h3>Occupational safety and health training.</div>
+ </div>
+</section>
+</main>
+<footer>Built with plain HTML, CSS and JavaScript. Try the emergency stop.</footer>
+</div>
+
+<script>
+// Theme
+const root=document.documentElement;
+try{const t=localStorage.getItem("theme");if(t)root.dataset.theme=t}catch(e){}
+document.getElementById("theme").onclick=()=>{
+ const dark=root.dataset.theme?root.dataset.theme==="dark":matchMedia("(prefers-color-scheme: dark)").matches;
+ root.dataset.theme=dark?"light":"dark";
+ try{localStorage.setItem("theme",root.dataset.theme)}catch(e){}
+};
+
+// Gears
+const cv=document.getElementById("gears"),ctx=cv.getContext("2d");ctx.scale(2,2);
+const gears=[{x:110,y:170,r:70,n:14},{x:202,y:93,r:50,n:10},{x:181,y:254,r:40,n:8}];
+const speed=document.getElementById("speed"),stop=document.getElementById("stop"),status=document.getElementById("status");
+let running=!matchMedia("(prefers-reduced-motion: reduce)").matches,v=0,theta=0,last=performance.now();
+function setRun(r){running=r;stop.setAttribute("aria-pressed",String(!r));stop.textContent=r?"Emergency stop":"Restart";status.textContent=r?"Machine running":"Machine stopped"}
+setRun(running);
+stop.onclick=()=>setRun(!running);
+function path(g,rot){const p=Math.PI*2/g.n;ctx.beginPath();
+ for(let i=0;i<g.n;i++){const a=rot+i*p;
+  [[g.r-7,-.5],[g.r+7,-.2],[g.r+7,.2],[g.r-7,.5]].forEach(([r,o],k)=>{const x=g.x+Math.cos(a+o*p)*r,y=g.y+Math.sin(a+o*p)*r;(i||k)?ctx.lineTo(x,y):ctx.moveTo(x,y)})}
+ ctx.closePath();ctx.moveTo(g.x+g.r*.25,g.y);ctx.arc(g.x,g.y,g.r*.25,0,7)}
+function draw(now){const dt=Math.min(now-last,50);last=now;
+ v+=((running?+speed.value*.0006:0)-v)*Math.min(1,dt*.004);theta+=v*dt;
+ const cs=getComputedStyle(root);ctx.clearRect(0,0,360,300);
+ gears.forEach((g,i)=>{const rot=i===0?theta:i===1?-theta*14/10+Math.PI/10:-theta*14/8+Math.PI/8;
+  path(g,rot);ctx.fillStyle=i===1?cs.getPropertyValue("--hot"):cs.getPropertyValue("--blue");ctx.fill("evenodd");
+  ctx.lineWidth=2;ctx.strokeStyle=cs.getPropertyValue("--ink");ctx.stroke()});
+ requestAnimationFrame(draw)}
+requestAnimationFrame(draw);
+
+// Stack explorer
+const stack={
+ HTML:["Semantic structure that works for everyone.",'<button type="button" aria-pressed="false">\n  Menu\n</button>'],
+ CSS:["Layouts that adapt to any screen.",".grid {\n  display: grid;\n  grid-template-columns:\n    repeat(auto-fit, minmax(16rem, 1fr));\n}"],
+ JavaScript:["Behavior that responds to people.",'document.querySelector("button")\n  .addEventListener("click", () => {\n    console.log("clicked");\n  });'],
+ "React.js":["Reusable components with state.","function Counter() {\n  const [n, setN] = useState(0);\n  return (\n    <button onClick={() => setN(n + 1)}>\n      {n}\n    </button>\n  );\n}"],
+ "Next.js":["React apps with routing built in.","export default function Page() {\n  return <h1>Hello from Next.js</h1>;\n}"],
+ Bootstrap:["A fast start for responsive grids.",'<div class="row">\n  <div class="col-md-6">One</div>\n  <div class="col-md-6">Two</div>\n</div>']
+};
+const chips=document.getElementById("chips");
+Object.keys(stack).forEach((k,i)=>{const b=document.createElement("button");b.className="chip";b.type="button";b.textContent=k;
+ b.onclick=()=>{chips.querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed",String(x===b)));
+  document.getElementById("skilldesc").textContent=stack[k][0];document.getElementById("code").textContent=stack[k][1]};
+ chips.append(b);if(!i)b.click()});
+
+// Terminal
+const out=document.getElementById("out");
+const cmds={
+ help:()=>"Commands: about, skills, experience, certs, clear",
+ about:()=>"Frontend developer with 5 years of experience. Also certified to program industrial machines.",
+ skills:()=>"HTML, CSS, JavaScript, React.js, Next.js, Bootstrap",
+ experience:()=>"Frontend Developer (5 years)\nSandwich Artist, Subway",
+ certs:()=>"SACA Gold: programming machines in an industrial setting\nOSHA 10: workplace safety",
+ clear:()=>{out.textContent="";return null}
+};
+function run(c){c=c.trim().toLowerCase();if(!c)return;
+ const f=cmds[c];const res=f?f():"Unknown command “"+c+"”. Type help to see the list.";
+ if(c!=="clear"){const d=document.createElement("div");const s=document.createElement("span");s.className="cmd";s.textContent="> "+c;d.append(s,"\n"+res+"\n");out.append(d)}
+ out.scrollTop=out.scrollHeight}
+Object.keys(cmds).forEach(k=>{const b=document.createElement("button");b.type="button";b.textContent=k;b.onclick=()=>run(k);document.getElementById("quick").append(b)});
+document.getElementById("form").onsubmit=e=>{e.preventDefault();const i=document.getElementById("cmd");run(i.value);i.value=""};
+run("help");
+</script>
+</body>
+</html>
